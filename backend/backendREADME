@@ -1,0 +1,280 @@
+# AdMimic Backend
+
+## Overview
+
+AdMimic is an AI-powered design tool that transforms ad inspiration into branded execution. Upload any effective advertisement, and the system analyzes its design psychology and structure using GPT-4o, then applies your brand assets to generate a new ad that preserves the original's effectiveness.
+
+## Architecture
+
+### Core Components
+
+1. **GPT Design Analyzer** (`services/gpt_analyzer.py`)
+   - Uses GPT-4o to understand design psychology and effectiveness factors
+   - Extracts precise technical specifications for recreation
+   - Analyzes visual hierarchy, emotional triggers, and brand positioning
+
+2. **Brand Asset Processor** (`services/asset_processor.py`) 
+   - Creates multiple logo variants (transparent, monochrome, high-contrast)
+   - Processes product images with background removal and enhancements
+   - Extracts brand color palettes using ColorThief
+
+3. **Ad Generator** (`services/ad_generator.py`)
+   - Uses GPT-4o to adapt original design strategy to new brand
+   - Preserves psychological impact while applying brand identity
+   - Intelligent text replacement and color adaptation
+
+4. **Ad Renderer** (`services/ad_renderer.py`)
+   - High-quality image rendering using PIL
+   - Advanced typography with font fallbacks
+   - Precise element positioning and compositing
+
+### API Endpoints
+
+- `POST /analyze-ad` - Analyze uploaded ad with GPT-4o
+- `POST /process-brand-assets` - Process logo and product images  
+- `POST /generate-ad` - Generate new branded ad
+- `GET /download-ad/{session_id}` - Download generated ad
+- `GET /session/{session_id}` - Get session status
+- `DELETE /session/{session_id}` - Clean up session
+
+## File Structure
+
+```
+backend/
+├── main.py                 # FastAPI application
+├── config.py              # Configuration management
+├── utils.py               # Utility functions
+├── requirements.txt       # Python dependencies
+├── Dockerfile            # Container configuration
+├── .env.example          # Environment variables template
+├── setup.sh              # Automated setup script
+├── models/
+│   ├── __init__.py
+│   └── schemas.py        # Pydantic models
+├── services/
+│   ├── __init__.py
+│   ├── gpt_analyzer.py   # GPT-4o design analysis
+│   ├── asset_processor.py # Brand asset processing
+│   ├── ad_generator.py   # GPT-4o ad generation  
+│   └── ad_renderer.py    # Image rendering engine
+├── uploads/              # Temporary file uploads
+├── temp/                 # Temporary processing files
+├── generated/            # Generated ad outputs
+├── assets/               # Processed brand assets
+├── fonts/                # Font files
+└── logs/                 # Application logs
+```
+
+## Installation
+
+### Option 1: Automated Setup
+
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+### Option 2: Manual Setup
+
+1. **Create virtual environment:**
+```bash
+python3.11 -m venv venv
+source venv/bin/activate
+```
+
+2. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Setup environment:**
+```bash
+cp .env.example .env
+# Edit .env and add your OpenAI API key
+```
+
+4. **Create directories:**
+```bash
+mkdir -p uploads temp generated assets fonts logs models services
+```
+
+### Option 3: Docker
+
+```bash
+docker build -t admimics-backend .
+docker run -p 8000:8000 --env-file .env admimics-backend
+```
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `OPENAI_API_KEY` | OpenAI API key (required) | - |
+| `DEBUG` | Enable debug mode | `False` |
+| `HOST` | Server host | `0.0.0.0` |
+| `PORT` | Server port | `8000` |
+| `MAX_FILE_SIZE_MB` | Maximum upload size | `10` |
+| `CORS_ORIGINS` | Allowed origins | `http://localhost:3000` |
+| `MAX_CANVAS_SIZE` | Maximum ad dimensions | `2048` |
+
+### Required API Keys
+
+- **OpenAI API Key**: Required for GPT-4o design analysis and generation
+  - Get from: https://platform.openai.com/api-keys
+  - Add to `.env` as: `OPENAI_API_KEY=your_key_here`
+
+## Usage
+
+### 1. Start the Server
+
+```bash
+# Development
+source venv/bin/activate
+python main.py
+
+# Production with uvicorn
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+### 2. API Workflow
+
+1. **Analyze Ad**: Upload advertisement image for GPT-4o analysis
+2. **Process Assets**: Upload logo, product images, set brand colors
+3. **Generate Ad**: Create new branded ad with text customization
+4. **Download**: Get the final rendered advertisement
+
+### 3. Example API Usage
+
+```python
+import requests
+
+# 1. Analyze original ad
+with open('inspiration_ad.jpg', 'rb') as f:
+    response = requests.post(
+        'http://localhost:8000/analyze-ad',
+        files={'ad_image': f}
+    )
+session_id = response.json()['session_id']
+
+# 2. Process brand assets  
+with open('logo.png', 'rb') as logo, open('product.jpg', 'rb') as product:
+    response = requests.post(
+        'http://localhost:8000/process-brand-assets',
+        files={'logo': logo, 'product_image': product},
+        data={
+            'primary_color': '#FF0000',
+            'session_id': session_id
+        }
+    )
+
+# 3. Generate new ad
+response = requests.post(
+    'http://localhost:8000/generate-ad',
+    json={
+        'original_structure': original_analysis['structure'],
+        'brand_asset_ids': {'session_id': session_id},
+        'text_replacements': {
+            'headline': 'Your New Headline',
+            'cta_button': 'Shop Now'
+        },
+        'primary_color': '#FF0000',
+        'company_name': 'Your Company'
+    }
+)
+
+# 4. Download result
+ad_url = response.json()['ad_url']
+```
+
+## Development
+
+### Code Quality
+
+- **Type Hints**: Full type annotation with mypy compatibility
+- **Validation**: Pydantic models for all data structures  
+- **Error Handling**: Comprehensive exception handling and logging
+- **Testing**: Built-in validation and health checks
+- **Documentation**: Automatic API docs at `/docs`
+
+### Key Features
+
+- **Smart Font Handling**: Automatic font fallbacks and system font detection
+- **Background Removal**: Intelligent product image processing with rembg
+- **Color Analysis**: Advanced brand color extraction and psychology
+- **Session Management**: Automatic cleanup and file management
+- **Production Ready**: Docker support, logging, health checks
+
+### Logging
+
+Application logs are written to:
+- Console output (structured JSON in production)
+- `logs/admimics.log` file
+- Configurable log levels via `LOG_LEVEL` environment variable
+
+### Security
+
+- Input validation on all endpoints
+- File type verification with magic number checking
+- Size limits on uploads  
+- Temporary file cleanup
+- No persistent storage of sensitive data
+
+## Troubleshooting
+
+### Common Issues
+
+1. **OpenAI API Errors**
+   - Check API key is valid and has credits
+   - Verify model access (GPT-4o required)
+   - Check rate limits
+
+2. **Image Processing Errors**
+   - Ensure sufficient memory for large images
+   - Check file format compatibility
+   - Verify rembg model downloads
+
+3. **Font Rendering Issues**
+   - Install system fonts or add to `fonts/` directory
+   - Check file permissions
+   - Verify font file formats
+
+### Performance Optimization
+
+- Use SSD storage for temp files
+- Allocate sufficient RAM (4GB+ recommended)
+- Consider Redis for session storage in production
+- Use CDN for serving generated ads
+
+## API Documentation
+
+Full interactive API documentation available at:
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+## Dependencies
+
+### Core
+- **FastAPI**: Modern web framework with automatic OpenAPI docs
+- **OpenAI**: GPT-4o integration for design intelligence
+- **Pillow**: Advanced image processing and rendering
+- **Pydantic**: Data validation and serialization
+
+### AI & Image Processing  
+- **rembg**: AI-powered background removal
+- **colorthief**: Dominant color extraction
+- **opencv-python**: Computer vision utilities
+
+### Production
+- **uvicorn**: ASGI server with performance optimizations
+- **structlog**: Structured logging for production monitoring
+- **aiofiles**: Async file operations
+
+## License
+
+This implementation is provided as a complete, production-ready backend for the AdMimic application concept.
+
+---
+
+**Next Steps**: Proceed to Stage 2 for React frontend implementation that interfaces with this backend.
