@@ -1,0 +1,24 @@
+{
+  "name": "@motif/react",
+  "version": "0.1.0",
+  "description": "Headless React bindings for Motif",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@motif/schema": "workspace:*",
+    "@motif/primitives": "workspace:*",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+} 
