@@ -1,16 +1,7 @@
-// Headless React bindings for Motif
-import React from 'react';
-import type { KeyframeEffectSpec } from '@motif/schema';
+export { useSvgAnalysis } from './hooks/useSvgAnalysis.js';
+export { usePrimitivePlayer } from './hooks/usePrimitivePlayer.js';
+export { MotionElement } from './components/MotionElement.js';
+export type { MotionElementProps } from './components/MotionElement.js';
 
-interface MotionElementProps {
-  svgString: string;
-  animationConfig: KeyframeEffectSpec;
-}
-
-export function MotionElement({ svgString, animationConfig }: MotionElementProps) {
-  return React.createElement('div', {}, 
-    React.createElement('div', { 
-      dangerouslySetInnerHTML: { __html: svgString } 
-    })
-  );
-} 
+// Re-export useful types
+export type { PrimitiveMap, SvgAnalysisResult } from '@motif/schema'; 

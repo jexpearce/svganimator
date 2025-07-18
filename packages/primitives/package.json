@@ -1,7 +1,6 @@
 {
   "name": "@motif/primitives",
   "version": "0.1.0",
-  "description": "Animation primitive generators for Motif",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,14 +11,17 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/check-bundle-size.js",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "clean": "rm -rf dist"
   },
   "dependencies": {
     "@motif/schema": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "gzip-size": "^7.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^1.0.0"
   }
 }

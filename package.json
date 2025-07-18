@@ -1,21 +1,26 @@
 {
   "name": "motif",
   "version": "0.1.0",
-  "description": "The Tailwind of motion – composable SVG animation primitives with AI scaffolding",
   "private": true,
+  "description": "The Tailwind of motion - composable SVG animation primitives",
+  "type": "module",
   "scripts": {
     "build": "pnpm -r build",
-    "test": "pnpm -r test",
-    "test:run": "pnpm -r test:run",
-    "lint": "pnpm -r lint",
-    "clean": "pnpm -r clean",
-    "typecheck": "pnpm -r typecheck"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint packages/*/src --ext .ts,.tsx",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
     "typescript": "^5.5.0",
-    "vitest": "^1.0.0",
-    "jsdom": "^24.0.0"
+    "vitest": "^1.0.0"
   },
   "engines": {
     "node": ">=18.0.0",
