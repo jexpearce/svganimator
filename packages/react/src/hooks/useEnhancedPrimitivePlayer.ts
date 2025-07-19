@@ -1,24 +1,24 @@
 import { useEffect, useRef, RefObject, useMemo } from 'react';
 import { primitives } from '@motif/primitives';
-import { logger } from '@motif/utils';
+import { enhanceDrawPathEffect, getCachedPathLength } from '@motif/primitives/runtime/drawPath';
 import type { KeyframeEffectSpec, PrimitiveMap, SvgAnalysisResult } from '@motif/schema';
 
-interface PrimitivePlayerConfig<T extends keyof PrimitiveMap> {
+interface EnhancedPrimitivePlayerConfig<T extends keyof PrimitiveMap> {
   type: T;
   options: PrimitiveMap[T];
   metadata?: SvgAnalysisResult['metadata'];
 }
 
 /**
- * Hook that plays animation primitives using Web Animations API
+ * Enhanced version of usePrimitivePlayer that handles runtime measurements
  */
-export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
+export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
   ref: RefObject<SVGSVGElement>,
-  config: PrimitivePlayerConfig<T> | null
+  config: EnhancedPrimitivePlayerConfig<T> | null
 ) {
   const animationsRef = useRef<Animation[]>([]);
   
-  // Serialize config to detect changes (deep comparison)
+  // Serialize config to detect changes
   const configKey = useMemo(() => {
     if (!config) return null;
     return JSON.stringify({
@@ -37,18 +37,53 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
     animationsRef.current = [];
     
     try {
-      // Get the primitive function with proper typing
+      // Special handling for drawPath with runtime measurements
+      if (config.type === 'drawPath') {
+        if (!config.metadata) {
+          throw new Error('drawPath requires metadata');
+        }
+        
+        const effectSpec = primitives.drawPath(config.options as any, config.metadata);
+        const targets = ref.current.querySelectorAll(effectSpec.targetSelector);
+        
+        targets.forEach((target, index) => {
+          if (target instanceof SVGElement) {
+            // Try to get enhanced effect with actual path length
+            const enhancedEffect = enhanceDrawPathEffect(target, effectSpec.timing.duration);
+            
+            if (enhancedEffect) {
+              const stagger = (config.options as PrimitiveMap['drawPath']).stagger || 0;
+              const delay = (effectSpec.timing.delay || 0) + (index * stagger);
+              
+              const animation = new Animation(enhancedEffect, document.timeline);
+              animation.startTime = document.timeline.currentTime! + delay;
+              animation.play();
+              animationsRef.current.push(animation);
+            } else {
+              // Fallback to standard animation
+              const animation = target.animate(effectSpec.keyframes, {
+                ...effectSpec.timing,
+                delay: (effectSpec.timing.delay || 0) + (index * stagger)
+              });
+              animationsRef.current.push(animation);
+            }
+          }
+        });
+        
+        return;
+      }
+      
+      // Standard primitive handling
       const primitiveFn = primitives[config.type];
       if (!primitiveFn) {
         throw new Error(`Unknown primitive: ${config.type}`);
       }
       
-      // Generate the effect spec based on primitive type
       let effectSpec: KeyframeEffectSpec;
       
-      if (config.type === 'drawPath' || config.type === 'staggerFadeIn') {
+      if (config.type === 'staggerFadeIn') {
         if (!config.metadata) {
-          throw new Error(`Primitive ${config.type} requires metadata`);
+          throw new Error('staggerFadeIn requires metadata');
         }
         effectSpec = (primitiveFn as any)(config.options, config.metadata);
       } else {
@@ -59,7 +94,7 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
       const targets = ref.current.querySelectorAll(effectSpec.targetSelector);
       
       if (targets.length === 0) {
-        logger.warn(`No elements found for selector: ${effectSpec.targetSelector}`);
+        console.warn(`No elements found for selector: ${effectSpec.targetSelector}`);
         return;
       }
       
@@ -78,7 +113,7 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
         animationsRef.current.push(animation);
       });
     } catch (error) {
-      logger.error('Failed to play animation:', error);
+      console.error('Failed to play animation:', error);
     }
     
     // Cleanup

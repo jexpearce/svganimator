@@ -1,5 +1,5 @@
 {
-  "name": "@motif/primitives",
+  "name": "@motif/utils",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,18 +11,13 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --minify --treeshake && node scripts/check-bundle-size.js",
+    "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
-    "@motif/schema": "workspace:*"
-  },
   "devDependencies": {
-    "gzip-size": "^7.0.0",
-    "tsup": "^8.0.0",
     "typescript": "^5.5.0",
     "vitest": "^1.0.0"
   }
-}
+} 

@@ -10,7 +10,9 @@
     "test:run": "vitest run",
     "lint": "eslint packages/*/src --ext .ts,.tsx",
     "typecheck": "pnpm -r typecheck",
-    "clean": "pnpm -r clean"
+    "clean": "pnpm -r clean",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -19,8 +21,14 @@
     "@vitest/coverage-v8": "^1.0.0",
     "eslint": "^8.50.0",
     "prettier": "^3.0.0",
+    "tsup": "^8.0.0",
     "typescript": "^5.5.0",
-    "vitest": "^1.0.0"
+    "vitest": "^1.0.0",
+    "@storybook/addon-essentials": "^7.0.0",
+    "@storybook/addon-interactions": "^7.0.0",
+    "@storybook/react": "^7.0.0",
+    "@storybook/react-vite": "^7.0.0",
+    "storybook": "^7.0.0"
   },
   "engines": {
     "node": ">=18.0.0",

@@ -19,7 +19,8 @@
   "dependencies": {
     "@motif/analysis": "workspace:*",
     "@motif/primitives": "workspace:*",
-    "@motif/schema": "workspace:*"
+    "@motif/schema": "workspace:*",
+    "@motif/utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0.0",

@@ -21,6 +21,11 @@ describe('Animation Primitives', () => {
       expect(effect.keyframes[0]).toEqual({ opacity: 0.5 });
       expect(effect.keyframes[1]).toEqual({ opacity: 0.8 });
     });
+    
+    it('should accept custom selector', () => {
+      const effect = fadeIn({ duration: 500, selector: '.fade-target' });
+      expect(effect.targetSelector).toBe('.fade-target');
+    });
   });
   
   describe('scale', () => {
@@ -35,7 +40,7 @@ describe('Animation Primitives', () => {
     it('should handle custom transform origin', () => {
       const effect = scale({ duration: 800, from: 0, to: 1, origin: 'top left' });
       
-      expect(effect.keyframes[0].transformOrigin).toBe('top left');
+      expect(effect.keyframes[0]['transform-origin']).toBe('top left');
     });
   });
   
@@ -44,7 +49,7 @@ describe('Animation Primitives', () => {
       const effect = slideIn({ duration: 600, fromDirection: 'left', distance: '100px' });
       
       expect(effect.keyframes[0].transform).toBe('translateX(-100px)');
-      expect(effect.keyframes[1].transform).toBe('translate(0, 0)');
+      expect(effect.keyframes[1].transform).toBe('translateX(0)');
     });
     
     it('should handle all directions', () => {
@@ -58,8 +63,14 @@ describe('Animation Primitives', () => {
   });
   
   describe('drawPath', () => {
+    const strokeMetadata = {
+      classification: 'flattened' as const,
+      flags: ['isFlattened', 'isStrokeBased'] as any,
+      nodeCount: { path: 1, g: 0 }
+    };
+    
     it('should create path drawing effect', () => {
-      const effect = drawPath({ duration: 2000 });
+      const effect = drawPath({ duration: 2000 }, strokeMetadata);
       
       expect(effect.targetSelector).toContain('path[stroke]');
       expect(effect.keyframes[0].strokeDashoffset).toBe('1000');
@@ -75,15 +86,26 @@ describe('Animation Primitives', () => {
       
       expect(() => drawPath({ duration: 1000 }, metadata)).toThrow(UnsupportedPrimitiveError);
     });
+    
+    it('should accept custom selector', () => {
+      const effect = drawPath({ duration: 2000, selector: '.my-path' }, strokeMetadata);
+      expect(effect.targetSelector).toBe('.my-path');
+    });
   });
   
   describe('staggerFadeIn', () => {
+    const structuredMetadata = {
+      classification: 'structured' as const,
+      flags: ['isStructured'] as any,
+      nodeCount: { path: 2, g: 1 }
+    };
+    
     it('should create stagger effect', () => {
       const effect = staggerFadeIn({
         duration: 400,
         childSelector: 'g > *',
         stagger: 100
-      });
+      }, structuredMetadata);
       
       expect(effect.targetSelector).toBe('g > *');
       expect(effect.keyframes[0].opacity).toBe(0);

@@ -2,6 +2,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { analyzeSvg } from '@motif/analysis';
 import type { SvgAnalysisResult } from '@motif/schema';
 
+// Module-level cache to prevent duplicate analysis
+const analysisCache = new Map<string, Promise<SvgAnalysisResult>>();
+
 /**
  * Custom hook that memoizes SVG analysis by content hash
  */
@@ -33,7 +36,16 @@ export function useSvgAnalysis(svgString: string): {
         setLoading(true);
         setError(null);
         
-        const result = await analyzeSvg(svgString);
+        // Check cache first
+        const cacheKey = svgHash;
+        let resultPromise = analysisCache.get(cacheKey);
+        
+        if (!resultPromise) {
+          resultPromise = analyzeSvg(svgString);
+          analysisCache.set(cacheKey, resultPromise);
+        }
+        
+        const result = await resultPromise;
         
         if (!cancelled) {
           setData(result);
@@ -41,6 +53,8 @@ export function useSvgAnalysis(svgString: string): {
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err : new Error('Analysis failed'));
+          // Remove failed analysis from cache
+          analysisCache.delete(svgHash);
         }
       } finally {
         if (!cancelled) {
