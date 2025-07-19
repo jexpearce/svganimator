@@ -68,5 +68,9 @@ export function createLogger(config: LoggerConfig = {}): Logger {
   };
 }
 
-// Default logger instance
-export const logger = createLogger(); 
+// Default logger instance with environment-based log level
+export const logger = createLogger({
+  level: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MOTIF_LOG_LEVEL as LogLevel) || 
+         (typeof process !== 'undefined' && process.env?.MOTIF_LOG_LEVEL as LogLevel) || 
+         'info'
+}); 

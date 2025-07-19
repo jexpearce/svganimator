@@ -1,6 +1,5 @@
 import { useEffect, useRef, RefObject, useMemo } from 'react';
-import { primitives } from '@motif/primitives';
-import { enhanceDrawPathEffect, getCachedPathLength } from '@motif/primitives/runtime/drawPath';
+import { primitives, enhanceDrawPathEffect } from '@motif/primitives';
 import type { KeyframeEffectSpec, PrimitiveMap, SvgAnalysisResult } from '@motif/schema';
 
 interface EnhancedPrimitivePlayerConfig<T extends keyof PrimitiveMap> {

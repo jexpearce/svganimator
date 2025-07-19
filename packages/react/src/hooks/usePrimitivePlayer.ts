@@ -46,13 +46,20 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
       // Generate the effect spec based on primitive type
       let effectSpec: KeyframeEffectSpec;
       
-      if (config.type === 'drawPath' || config.type === 'staggerFadeIn') {
+      if (config.type === 'drawPath') {
         if (!config.metadata) {
           throw new Error(`Primitive ${config.type} requires metadata`);
         }
-        effectSpec = (primitiveFn as any)(config.options, config.metadata);
+        effectSpec = primitives.drawPath(config.options as PrimitiveMap['drawPath'] & { selector?: string }, config.metadata);
+      } else if (config.type === 'staggerFadeIn') {
+        if (!config.metadata) {
+          throw new Error(`Primitive ${config.type} requires metadata`);
+        }
+        effectSpec = primitives.staggerFadeIn(config.options as PrimitiveMap['staggerFadeIn'], config.metadata);
       } else {
-        effectSpec = (primitiveFn as any)(config.options);
+        // TypeScript should infer this correctly now
+        const fn = primitives[config.type];
+        effectSpec = fn(config.options as any);
       }
       
       // Find target elements
@@ -86,7 +93,8 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
       animationsRef.current.forEach(anim => anim.cancel());
       animationsRef.current = [];
     };
-  }, [ref, configKey, config]);
+  }, [ref, configKey]);  // Only depend on ref and serialized config
+  
   
   return {
     animations: animationsRef.current,

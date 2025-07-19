@@ -56,6 +56,18 @@ describe('Helper functions', () => {
         createEffect('.target', [{ opacity: 0 }], { duration: 0 })
       ).toThrow('Duration must be a positive number');
     });
+    
+    it('should handle undefined timing options', () => {
+      const effect = createEffect(
+        '.target',
+        [{ opacity: 0 }],
+        { duration: 1000, easing: undefined, delay: undefined, fill: undefined }
+      );
+      
+      expect(effect.timing.easing).toBe('ease');
+      expect(effect.timing.delay).toBe(0);
+      expect(effect.timing.fill).toBe('forwards');
+    });
   });
   
   describe('calculateStagger', () => {
@@ -69,6 +81,11 @@ describe('Helper functions', () => {
       expect(calculateStagger(0, 100, 50)).toBe(50);
       expect(calculateStagger(1, 100, 50)).toBe(150);
       expect(calculateStagger(2, 100, 50)).toBe(250);
+    });
+    
+    it('should handle zero stagger', () => {
+      expect(calculateStagger(5, 0)).toBe(0);
+      expect(calculateStagger(5, 0, 100)).toBe(100);
     });
   });
 }); 

@@ -26,5 +26,9 @@ export const primitives: PrimitiveFunctions = {
 export { fadeIn, scale, slideIn, drawPath, staggerFadeIn };
 export { createEffect } from './helpers.js';
 
+// Runtime helpers
+export { enhanceDrawPathEffect, getCachedPathLength } from './runtime/drawPath.js';
+export type { DrawPathRuntime } from './runtime/drawPath.js';
+
 // Re-export types for convenience
 export type { KeyframeEffectSpec, PrimitiveMap, Timing } from '@motif/schema'; 

@@ -46,11 +46,7 @@ export function MotionElement<T extends keyof PrimitiveMap>({
     // Get reference to the inserted SVG element
     const svg = containerRef.current.querySelector('svg');
     if (svg && svg instanceof SVGSVGElement) {
-      // Use a mutable ref object pattern to update the ref
-      Object.defineProperty(svgRef, 'current', {
-        writable: true,
-        value: svg
-      });
+      svgRef.current = svg;
     }
   }, [analysisResult]);
   

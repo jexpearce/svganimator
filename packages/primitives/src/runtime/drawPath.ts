@@ -11,7 +11,7 @@ export interface DrawPathRuntime {
 export function enhanceDrawPathEffect(
   element: SVGElement,
   duration: number
-): KeyframeEffect | null {
+): globalThis.KeyframeEffect | null {
   // Only process elements with getTotalLength method
   if (!('getTotalLength' in element) || typeof element.getTotalLength !== 'function') {
     return null;
@@ -32,7 +32,7 @@ export function enhanceDrawPathEffect(
     }
   ];
   
-  return new KeyframeEffect(
+  return new globalThis.KeyframeEffect(
     element,
     keyframes,
     {

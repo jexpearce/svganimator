@@ -52,6 +52,27 @@ describe('Animation Primitives', () => {
       expect(effect.keyframes[1].transform).toBe('translateX(0)');
     });
     
+    it('should create slide effect from right', () => {
+      const effect = slideIn({ duration: 600, fromDirection: 'right', distance: '50px' });
+      
+      expect(effect.keyframes[0].transform).toBe('translateX(50px)');
+      expect(effect.keyframes[1].transform).toBe('translateX(0)');
+    });
+    
+    it('should create slide effect from top', () => {
+      const effect = slideIn({ duration: 600, fromDirection: 'top', distance: '75px' });
+      
+      expect(effect.keyframes[0].transform).toBe('translateY(-75px)');
+      expect(effect.keyframes[1].transform).toBe('translateY(0)');
+    });
+    
+    it('should create slide effect from bottom', () => {
+      const effect = slideIn({ duration: 600, fromDirection: 'bottom', distance: '25px' });
+      
+      expect(effect.keyframes[0].transform).toBe('translateY(25px)');
+      expect(effect.keyframes[1].transform).toBe('translateY(0)');
+    });
+    
     it('should handle all directions', () => {
       const directions = ['left', 'right', 'top', 'bottom'] as const;
       

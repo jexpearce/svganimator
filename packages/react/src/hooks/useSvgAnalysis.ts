@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { analyzeSvg } from '@motif/analysis';
 import type { SvgAnalysisResult } from '@motif/schema';
 
@@ -6,7 +6,7 @@ import type { SvgAnalysisResult } from '@motif/schema';
 const analysisCache = new Map<string, Promise<SvgAnalysisResult>>();
 
 /**
- * Custom hook that memoizes SVG analysis by content hash
+ * Custom hook that memoizes SVG analysis by content
  */
 export function useSvgAnalysis(svgString: string): {
   data: SvgAnalysisResult | null;
@@ -17,17 +17,6 @@ export function useSvgAnalysis(svgString: string): {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   
-  // Simple hash function for memoization
-  const svgHash = useMemo(() => {
-    let hash = 0;
-    for (let i = 0; i < svgString.length; i++) {
-      const char = svgString.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return hash.toString(36);
-  }, [svgString]);
-  
   useEffect(() => {
     let cancelled = false;
     
@@ -36,13 +25,12 @@ export function useSvgAnalysis(svgString: string): {
         setLoading(true);
         setError(null);
         
-        // Check cache first
-        const cacheKey = svgHash;
-        let resultPromise = analysisCache.get(cacheKey);
+        // Use SVG string directly as cache key
+        let resultPromise = analysisCache.get(svgString);
         
         if (!resultPromise) {
           resultPromise = analyzeSvg(svgString);
-          analysisCache.set(cacheKey, resultPromise);
+          analysisCache.set(svgString, resultPromise);
         }
         
         const result = await resultPromise;
@@ -54,7 +42,7 @@ export function useSvgAnalysis(svgString: string): {
         if (!cancelled) {
           setError(err instanceof Error ? err : new Error('Analysis failed'));
           // Remove failed analysis from cache
-          analysisCache.delete(svgHash);
+          analysisCache.delete(svgString);
         }
       } finally {
         if (!cancelled) {
@@ -68,7 +56,7 @@ export function useSvgAnalysis(svgString: string): {
     return () => {
       cancelled = true;
     };
-  }, [svgHash, svgString]);
+  }, [svgString]);
   
   return { data, loading, error };
 } 
