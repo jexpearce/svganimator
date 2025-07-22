@@ -33,10 +33,10 @@ export interface KeyframeEffectSpec {
 
 /** Map primitive names → their specific option types */
 export interface PrimitiveMap {
-  fadeIn: Timing & { from?: number; to?: number };
-  scale: Timing & { from: number; to: number; origin?: string };
-  slideIn: Timing & { fromDirection: 'left' | 'right' | 'top' | 'bottom'; distance: string };
-  drawPath: Timing & { stagger?: number };
+  fadeIn: Timing & { from?: number; to?: number; selector?: string };
+  scale: Timing & { from: number; to: number; origin?: string; selector?: string };
+  slideIn: Timing & { fromDirection: 'left' | 'right' | 'top' | 'bottom'; distance: string; selector?: string };
+  drawPath: Timing & { stagger?: number; selector?: string };
   staggerFadeIn: Timing & { childSelector: string; stagger: number };
 }
 
@@ -57,4 +57,7 @@ export interface SvgAstNode {
   children?: SvgAstNode[];
 }
 
-export type SvgAst = SvgAstNode; 
+export type SvgAst = SvgAstNode;
+
+// Export all Zod schemas
+export * from './zod.js'; 
