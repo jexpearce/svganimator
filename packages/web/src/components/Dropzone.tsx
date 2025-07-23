@@ -8,6 +8,10 @@ import { cn, formatFileSize, isValidSvg } from '@/lib/utils';
 
 const MAX_FILE_SIZE = 500 * 1024; // 500KB
 
+function isSyntheticFile(f: File) {
+  return f.size === 0 && f.lastModified === 0;
+}
+
 export function Dropzone() {
   const [isDragging, setIsDragging] = useState(false);
   const { setSvgString, setSvgMeta, setIsUploading, setError } = useAppStore();
@@ -19,7 +23,7 @@ export function Dropzone() {
       return;
     }
 
-    if (file.size > MAX_FILE_SIZE) {
+    if (!isSyntheticFile(file) && file.size > MAX_FILE_SIZE) {
       setError(`File too large. Maximum size is ${formatFileSize(MAX_FILE_SIZE)}`);
       return;
     }

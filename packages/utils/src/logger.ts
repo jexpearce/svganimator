@@ -1,5 +1,10 @@
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
+// Provide a lightweight ImportMeta typing so TypeScript understands
+// the optional `env` bag in both browser and Node runtimes.
+interface ImportMetaEnv { [key: string]: string | undefined }
+interface ImportMeta { env?: ImportMetaEnv }
+
 export interface Logger {
   debug(message: string, ...args: any[]): void;
   info(message: string, ...args: any[]): void;

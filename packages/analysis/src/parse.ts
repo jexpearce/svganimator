@@ -10,12 +10,15 @@ export function parseSvg(clean: string): SvgAst {
   if (!parsed || !parsed.children || parsed.children.length === 0) {
     throw new Error('Failed to parse SVG: no root element found');
   }
-  
-  // svg-parser returns a root with children array, we want the first child (svg element)
-  const svgElement = parsed.children[0];
-  if (!svgElement || svgElement.name !== 'svg') {
+
+  // svg-parser wraps the real root <svg> element in a document node. Locate the
+  // first child element named 'svg' rather than assuming index 0.
+  const svgElement = parsed.children.find(
+    (c: any) => c.type === 'element' && c.name === 'svg'
+  );
+  if (!svgElement) {
     throw new Error('Failed to parse SVG: root element is not <svg>');
   }
-  
+
   return svgElement as SvgAst;
-} 
+}

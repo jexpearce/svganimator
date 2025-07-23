@@ -19,7 +19,7 @@ export function Slider({
   step = 1,
   className,
 }: SliderProps) {
-  const percentage = ((value - min) / (max - min)) * 100;
+  const pct = ((value - min) / (max - min)) * 100;
 
   return (
     <div className={cn("relative", className)}>
@@ -31,9 +31,7 @@ export function Slider({
         max={max}
         step={step}
         className="range-slider"
-        style={{
-          background: `linear-gradient(to right, rgb(59 130 246) 0%, rgb(59 130 246) ${percentage}%, rgb(226 232 240) ${percentage}%, rgb(226 232 240) 100%)`,
-        }}
+        style={{ ['--tw-range-progress' as any]: `${pct}%` }}
       />
     </div>
   );

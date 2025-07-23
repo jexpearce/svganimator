@@ -78,6 +78,16 @@ export const SvgMetadataSchema = z.object({
 
 export type SvgMetadata = z.infer<typeof SvgMetadataSchema>;
 
+export const SvgAnalysisResultSchema = z.object({
+  cleanedSvgString: z.string(),
+  metadata: z.object({
+    classification: z.enum(['flattened', 'structured']),
+    flags: z.array(z.enum(['isFlattened', 'isStructured', 'isStrokeBased'])),
+    nodeCount: z.record(z.number())
+  })
+});
+export type SvgAnalysisResult = z.infer<typeof SvgAnalysisResultSchema>;
+
 // Schema for API responses
 export const SuggestionResponseSchema = z.object({
   suggestions: z.array(PrimitiveArgumentSchema).min(1).max(3),

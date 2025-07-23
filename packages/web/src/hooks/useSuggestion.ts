@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useAppStore } from '@/store/app-store';
-import { PrimitiveArgumentSchema, type SvgMetadata } from '@/lib/schemas';
+import { PrimitiveArgumentSchema, type SvgMetadata } from '@motif/schema';
 import type { AnimationConfig } from '@/store/app-store';
 
 export function useSuggestion() {

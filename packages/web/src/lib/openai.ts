@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import type { SvgMetadata } from './schemas';
+import type { SvgMetadata } from '@motif/schema';
 
 // Initialize OpenAI client (will use OPENAI_API_KEY env var)
 const openai = new OpenAI({

@@ -1,6 +1,7 @@
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, waitFor, screen } from '@testing-library/react';
-import { MotionElement } from '../components/MotionElement.js';
+import { MotionElement, MotionHandle } from '../components/MotionElement.js';
 
 // Mock Web Animations API
 beforeEach(() => {
@@ -18,7 +19,8 @@ describe('MotionElement', () => {
   const simpleSvg = '<svg width="100" height="100"><circle cx="50" cy="50" r="40" fill="blue"/></svg>';
   
   it('should render SVG content', async () => {
-    const { container } = render(<MotionElement svgString={simpleSvg} />);
+    const ref = React.createRef<MotionHandle>();
+    const { container } = render(<MotionElement ref={ref} svgString={simpleSvg} />);
     
     await waitFor(() => {
       const svg = container.querySelector('svg');
@@ -28,7 +30,8 @@ describe('MotionElement', () => {
   });
   
   it('should show loading state', () => {
-    render(<MotionElement svgString={simpleSvg} />);
+    const ref = React.createRef<MotionHandle>();
+    render(<MotionElement ref={ref} svgString={simpleSvg} />);
     expect(screen.getByText('Loading...')).toBeTruthy();
   });
   
@@ -38,8 +41,10 @@ describe('MotionElement', () => {
       options: { duration: 1000 }
     };
     
+    const ref = React.createRef<MotionHandle>();
     render(
-      <MotionElement 
+      <MotionElement
+        ref={ref}
         svgString={simpleSvg}
         animationConfig={animationConfig}
       />
@@ -53,7 +58,8 @@ describe('MotionElement', () => {
   it('should handle errors gracefully', async () => {
     const invalidSvg = 'not valid svg';
     
-    render(<MotionElement svgString={invalidSvg} />);
+    const ref = React.createRef<MotionHandle>();
+    render(<MotionElement ref={ref} svgString={invalidSvg} />);
     
     await waitFor(() => {
       expect(screen.getByText(/Error:/)).toBeTruthy();
