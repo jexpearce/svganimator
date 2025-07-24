@@ -89,7 +89,12 @@
 @layer components {
   /* Range slider styles */
   .range-slider {
-    @apply w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer;
+    @apply w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200;
+    background-image: linear-gradient(
+      to right,
+      theme(colors.brand.600) var(--tw-range-progress,0%),
+      theme(colors.slate.200) var(--tw-range-progress,0%)
+    );
   }
   
   .range-slider::-webkit-slider-thumb {

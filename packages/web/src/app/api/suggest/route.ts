@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { suggestAnimation } from '@/lib/openai';
-import { SuggestionRequestSchema, PrimitiveArgumentSchema } from '@/lib/schemas';
+import { SuggestionRequestSchema, PrimitiveArgumentSchema } from '@motif/schema';
 
 export async function POST(request: NextRequest) {
   try {
