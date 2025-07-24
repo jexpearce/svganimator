@@ -45,7 +45,7 @@ export const MotionElement = forwardRef<MotionHandle, MotionElementProps>(functi
     svgRef.current = containerRef.current.querySelector('svg');
   }, [analysis]);
 
-  if (loading) return <div className={className} style={style}>Loading…</div>;
+  if (loading) return <div className={className} style={style}>Loading...</div>;
   if (error)   return <div className={className} style={style}>Error: {error.message}</div>;
 
   return <div ref={containerRef} className={className} style={style} />;
