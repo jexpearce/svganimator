@@ -57,8 +57,7 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
         }
         effectSpec = primitives.staggerFadeIn(config.options as PrimitiveMap['staggerFadeIn'], config.metadata);
       } else {
-        // TypeScript should infer this correctly now
-        const fn = primitives[config.type];
+        const fn = primitives[config.type] as any;
         effectSpec = fn(config.options as any);
       }
       

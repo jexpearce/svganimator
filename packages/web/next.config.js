@@ -11,6 +11,13 @@ const nextConfig = {
       '.js': ['.js', '.ts'],
       '.jsx': ['.jsx', '.tsx']
     };
+    // Stub out node built-ins used by jsdom
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      net: false,
+      tls: false,
+      fs: false,
+    };
     return config;
   },
   transpilePackages: [

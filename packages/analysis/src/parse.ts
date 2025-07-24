@@ -5,8 +5,13 @@ import type { SvgAst } from '@motif/schema';
  * Parses clean SVG string into AST
  */
 export function parseSvg(clean: string): SvgAst {
-  const parsed = parse(clean);
-  
+  let parsed: any;
+  try {
+    parsed = parse(clean);
+  } catch {
+    throw new Error('Failed to parse SVG: no root element found');
+  }
+
   if (!parsed || !parsed.children || parsed.children.length === 0) {
     throw new Error('Failed to parse SVG: no root element found');
   }

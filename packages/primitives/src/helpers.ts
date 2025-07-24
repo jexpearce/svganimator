@@ -1,4 +1,4 @@
-import type { Keyframe, Timing, KeyframeEffectSpec } from '@motif/schema';
+import type { Timing, KeyframeEffectSpec } from '@motif/schema';
 
 /**
  * Creates a KeyframeEffectSpec with validation

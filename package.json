@@ -7,7 +7,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "vitest",
-    "pretest": "pnpm -r build",
+    "pretest": "pnpm -r --filter '!@motif/web' build",
     "test:run": "vitest run",
     "lint": "eslint packages/*/src --ext .ts,.tsx",
     "typecheck": "pnpm -r typecheck",

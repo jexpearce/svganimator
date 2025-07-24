@@ -45,24 +45,27 @@ export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
         const effectSpec = primitives.drawPath(config.options as any, config.metadata);
         const targets = ref.current.querySelectorAll(effectSpec.targetSelector);
         
+        const stagger = (config.options as PrimitiveMap['drawPath']).stagger || 0;
+
         targets.forEach((target, index) => {
           if (target instanceof SVGElement) {
             // Try to get enhanced effect with actual path length
             const enhancedEffect = enhanceDrawPathEffect(target, effectSpec.timing.duration);
-            
+
+            const baseDelay = +(effectSpec.timing.delay ?? 0);
+
             if (enhancedEffect) {
-              const stagger = (config.options as PrimitiveMap['drawPath']).stagger || 0;
-              const delay = (effectSpec.timing.delay || 0) + (index * stagger);
+              const delay = baseDelay + index * stagger;
               
               const animation = new Animation(enhancedEffect, document.timeline);
-              animation.startTime = document.timeline.currentTime! + delay;
+              animation.startTime = Number(document.timeline.currentTime ?? 0) + delay;
               animation.play();
               animationsRef.current.push(animation);
             } else {
               // Fallback to standard animation
               const animation = target.animate(effectSpec.keyframes, {
                 ...effectSpec.timing,
-                delay: (effectSpec.timing.delay || 0) + (index * stagger)
+                delay: baseDelay + index * stagger
               });
               animationsRef.current.push(animation);
             }

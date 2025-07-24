@@ -1,5 +1,9 @@
 import OpenAI from 'openai';
-import type { SvgMetadata } from '@motif/schema';
+import {
+  SuggestionResponseSchema,
+  type SvgMetadata,
+  type SuggestionResponse,
+} from '@motif/schema';
 
 // Initialize OpenAI client (will use OPENAI_API_KEY env var)
 const openai = new OpenAI({
@@ -9,7 +13,7 @@ const openai = new OpenAI({
 export async function suggestAnimation(
   svgMeta: SvgMetadata,
   prompt: string
-): Promise<any> {
+): Promise<SuggestionResponse> {
   const systemPrompt = `You are Motif AI assistant, an expert at suggesting SVG animations.
 
 User prompt: "${prompt}"
@@ -82,5 +86,6 @@ RULES:
     throw new Error('No animation suggestions returned');
   }
 
-  return JSON.parse(toolCall.function.arguments);
-} 
+  const raw = JSON.parse(toolCall.function.arguments);
+  return SuggestionResponseSchema.parse(raw);
+}
