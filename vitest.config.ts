@@ -21,10 +21,14 @@ export default defineConfig({
       exclude: [
         'node_modules/',
         'packages/*/dist/',
+        'packages/web/**', // Exclude Next.js web app from coverage
         '**/*.d.ts',
         '**/*.config.*',
+        '**/*.stories.*',
         '**/test-fixtures/**',
-        '**/tests/**' // Exclude Playwright test directories
+        '**/tests/**', // Exclude Playwright test directories
+        '**/.next/**', // Exclude Next.js build artifacts
+        '**/.storybook/**' // Exclude Storybook config
       ],
       thresholds: {
         lines: 90,
