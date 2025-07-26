@@ -51,10 +51,10 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-slate-200;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-slate-900;
   }
 }
 
@@ -74,21 +74,22 @@
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-muted rounded-full;
+    @apply bg-slate-200 rounded-full;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
+    @apply bg-slate-400/30 rounded-full;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    @apply bg-slate-400/50;
   }
 }
 
 @layer components {
   /* Range slider styles */
-  .range-slider {
+  .range-slider { 
+    --tw-range-progress: 0%;
     @apply w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200;
     background-image: linear-gradient(
       to right,

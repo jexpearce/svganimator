@@ -29,7 +29,7 @@ export function AnimationSelector({ suggestions }: AnimationSelectorProps) {
           <RadioGroup.Option
             key={`${config.type}-${index}`}
             value={config}
-            className={({ active, checked }) =>
+            className={({ checked }) =>
               cn(
                 "relative flex cursor-pointer rounded-lg px-4 py-3 shadow-sm transition-all",
                 "focus:outline-none focus:ring-2 focus:ring-brand-500",

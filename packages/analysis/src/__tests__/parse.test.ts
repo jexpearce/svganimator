@@ -6,11 +6,11 @@ describe('parseSvg', () => {
     const svg = '<svg width="100" height="100"><circle cx="50" cy="50" r="40"/></svg>';
     const ast = parseSvg(svg);
     
-    expect(ast.name).toBe('svg');
+    expect(ast.tagName).toBe('svg');
     expect(ast.type).toBe('element');
-    expect(ast.attributes?.width).toBe('100');
+    expect(ast.properties?.width).toBe(100);
     expect(ast.children).toHaveLength(1);
-    expect(ast.children?.[0].name).toBe('circle');
+    expect(ast.children?.[0].tagName).toBe('circle');
   });
   
   it('should throw error for non-SVG root', () => {
@@ -35,7 +35,7 @@ describe('parseSvg', () => {
     
     const ast = parseSvg(svg);
     
-    expect(ast.children?.[0].name).toBe('g');
+    expect(ast.children?.[0].tagName).toBe('g');
     expect(ast.children?.[0].children).toHaveLength(2);
   });
   
@@ -44,8 +44,8 @@ describe('parseSvg', () => {
     const ast = parseSvg(svg);
     
     const path = ast.children?.[0];
-    expect(path?.attributes?.d).toBe('M10,10 L90,90');
-    expect(path?.attributes?.stroke).toBe('black');
-    expect(path?.attributes?.['stroke-width']).toBe('2');
+    expect(path?.properties?.d).toBe('M10,10 L90,90');
+    expect(path?.properties?.stroke).toBe('black');
+    expect(path?.properties?.['stroke-width']).toBe(2);
   });
 }); 

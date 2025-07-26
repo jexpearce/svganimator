@@ -27,7 +27,9 @@ describe('SVG Analysis Pipeline', () => {
           </g>
         </svg>
       `;
+      console.log('DEBUG: SVG string:', svg);
       const result = await analyzeSvg(svg);
+      console.log('DEBUG: Result:', result);
       
       expect(result.metadata.classification).toBe('structured');
       expect(result.metadata.flags).toContain('isStructured');

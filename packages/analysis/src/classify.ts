@@ -16,13 +16,15 @@ export function classifySvg(ast: SvgAst): SvgAnalysisResult['metadata'] {
   // Recursive node counter
   function countNodes(node: SvgAst) {
     if (node.type === 'element') {
-      const tag = node.name;
-      nodeCount[tag] = (nodeCount[tag] || 0) + 1;
+      const tag = node.tagName;
+      if (tag) {
+        nodeCount[tag] = (nodeCount[tag] || 0) + 1;
+      }
       
       // Check for stroke-based elements
-      if (node.attributes) {
-        const hasStroke = node.attributes.stroke && node.attributes.stroke !== 'none';
-        const hasFill = node.attributes.fill && node.attributes.fill !== 'none';
+      if (node.properties) {
+        const hasStroke = node.properties.stroke && node.properties.stroke !== 'none';
+        const hasFill = node.properties.fill && node.properties.fill !== 'none';
         
         if (hasStroke && !hasFill) {
           hasStrokeElements = true;

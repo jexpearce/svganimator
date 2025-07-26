@@ -76,7 +76,7 @@ transform-origin: ${options.origin || 'center'};
 animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
       break;
 
-    case 'slideIn':
+    case 'slideIn': {
       animationName = 'motif-slide-in';
       const transforms: Record<typeof options.fromDirection, string> = {
         left: `translateX(-${options.distance})`,
@@ -97,6 +97,7 @@ animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
 }`;
       animationRule = `animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
       break;
+    }
 
     case 'drawPath':
       return `/* Path drawing animation
@@ -115,7 +116,7 @@ animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
   }
 }`;
 
-    case 'staggerFadeIn':
+    case 'staggerFadeIn': {
       const stagger = (options as PrimitiveMap['staggerFadeIn']).stagger / 1000;
       const maxElements = elementCount || 10;
       return `/* Stagger fade-in animation */
@@ -137,6 +138,7 @@ ${(options as PrimitiveMap['staggerFadeIn']).childSelector}:nth-child(${i + 1}) 
     transform: translateY(0);
   }
 }`;
+    }
   }
 
   return `${keyframes}\n\n.animated-element {\n  ${animationRule}\n}`;

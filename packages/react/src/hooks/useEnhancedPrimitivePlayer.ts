@@ -51,8 +51,9 @@ export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
             const enhancedEffect = enhanceDrawPathEffect(target, effectSpec.timing.duration);
             
             if (enhancedEffect) {
-              const stagger = (config.options as PrimitiveMap['drawPath']).stagger || 0;
-              const delay = (effectSpec.timing.delay || 0) + (index * stagger);
+              const staggerDelay = (config.options as PrimitiveMap['drawPath']).stagger || 0;
+              const baseDelay = Number(effectSpec.timing.delay) || 0;
+              const delay = (baseDelay + (index * staggerDelay)) as number;
               
               const animation = new Animation(enhancedEffect, document.timeline);
               animation.startTime = document.timeline.currentTime! + delay;
@@ -62,7 +63,7 @@ export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
               // Fallback to standard animation
               const animation = target.animate(effectSpec.keyframes, {
                 ...effectSpec.timing,
-                delay: (effectSpec.timing.delay || 0) + (index * stagger)
+                delay: (Number(effectSpec.timing.delay) || 0) + (index * staggerDelay)
               });
               animationsRef.current.push(animation);
             }

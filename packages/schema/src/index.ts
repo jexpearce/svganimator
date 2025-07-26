@@ -24,6 +24,9 @@ export interface Timing {
   fill?: 'none' | 'forwards' | 'both'; // default 'forwards'
 }
 
+/** Web Animations API Keyframe type */
+export type Keyframe = Record<string, string | number>;
+
 /** Primitive‑agnostic return value */
 export interface KeyframeEffectSpec {
   targetSelector: string;
@@ -50,14 +53,16 @@ export class UnsupportedPrimitiveError extends Error {
 
 /** SVG AST node type for parsing */
 export interface SvgAstNode {
-  name: string;
   type: 'element' | 'text';
-  value?: string;
-  attributes?: Record<string, string>;
+  tagName: string;
+  properties?: Record<string, string>;
   children?: SvgAstNode[];
 }
 
 export type SvgAst = SvgAstNode;
+
+// Re-export types from zod for convenience
+export type { SuggestionResponse } from './zod.js';
 
 // Export all Zod schemas
 export * from './zod.js'; 

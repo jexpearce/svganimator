@@ -1,13 +1,13 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { MotionElement } from '@motif/react';
 import { useAppStore } from '@/store/app-store';
 import { cn } from '@/lib/utils';
 
 export function PreviewPanel() {
-  const { svgString, svgMeta, animationConfig, isPlaying, setIsPlaying } = useAppStore();
+  const { svgString, svgMeta, animationConfig, setIsPlaying } = useAppStore();
   const playerRef = useRef<{ play: () => void; cancel: () => void } | null>(null);
 
   const handleReplay = () => {
@@ -83,7 +83,7 @@ export function PreviewPanel() {
             <span className="text-slate-500">Elements:</span>
             <span className="ml-2 font-medium text-slate-900">
               {Object.entries(svgMeta.metadata.nodeCount)
-                .filter(([_, count]) => count > 0)
+                .filter(([, count]) => count > 0)
                 .map(([tag, count]) => `${count} ${tag}`)
                 .join(', ')}
             </span>

@@ -94,6 +94,8 @@ export const SuggestionResponseSchema = z.object({
   reasoning: z.string().optional(),
 });
 
+export type SuggestionResponse = z.infer<typeof SuggestionResponseSchema>;
+
 // Schema for prompt request
 export const SuggestionRequestSchema = z.object({
   svgMeta: SvgMetadataSchema,

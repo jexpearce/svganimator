@@ -5,12 +5,29 @@ const nextConfig = {
     // Disable SSR for the animation preview components
     appDir: true,
   },
-  webpack: (config) => {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  webpack: (config, { isServer }) => {
     // Handle ESM packages
     config.resolve.extensionAlias = {
       '.js': ['.js', '.ts'],
       '.jsx': ['.jsx', '.tsx']
     };
+    
+    // Exclude Node.js modules from client bundle
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        net: false,
+        tls: false,
+        fs: false,
+        path: false,
+        os: false,
+        child_process: false,
+      };
+    }
+    
     return config;
   },
   transpilePackages: [

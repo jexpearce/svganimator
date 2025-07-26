@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Wand2, Code, Loader2 } from 'lucide-react';
+import { Wand2, Code } from 'lucide-react';
 import { useAppStore } from '@/store/app-store';
 import { PromptInput } from '@/components/PromptInput';
 import { AnimationSelector } from '@/components/AnimationSelector';

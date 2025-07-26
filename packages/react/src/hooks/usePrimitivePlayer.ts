@@ -59,7 +59,7 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
       } else {
         // TypeScript should infer this correctly now
         const fn = primitives[config.type];
-        effectSpec = fn(config.options as any);
+        effectSpec = (fn as any)(config.options);
       }
       
       // Find target elements
