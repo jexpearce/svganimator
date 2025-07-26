@@ -16,8 +16,8 @@ describe('optimizeSvg', () => {
     expect(output).toContain('y="10"');
     expect(output).not.toContain('.000');
     
-    // Check that hex colors are optimized
-    expect(output).toContain('#f00');
+    // Color names should not be used
+    expect(output).toContain('#ff0000');
   });
   
   it('should preserve viewBox', async () => {

@@ -27,17 +27,18 @@ export function isValidSvg(content: string): boolean {
 }
 
 export function getAnimationDescription(config: AnimationConfig): string {
+  const opts: any = config.options;
   switch (config.type) {
     case 'fadeIn':
-      return `Fade in from ${config.options.from ?? 0} to ${config.options.to ?? 1}`;
+      return `Fade in from ${opts.from ?? 0} to ${opts.to ?? 1}`;
     case 'scale':
-      return `Scale from ${config.options.from} to ${config.options.to}`;
+      return `Scale from ${opts.from} to ${opts.to}`;
     case 'slideIn':
-      return `Slide in from ${config.options.fromDirection}`;
+      return `Slide in from ${opts.fromDirection}`;
     case 'drawPath':
       return `Draw paths with ${config.options.duration}ms duration`;
     case 'staggerFadeIn':
-      return `Stagger fade in with ${config.options.stagger}ms delay`;
+      return `Stagger fade in with ${opts.stagger}ms delay`;
     default:
       return 'Custom animation';
   }

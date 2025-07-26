@@ -9,20 +9,18 @@ const svgoConfig: Config = {
       params: {
         overrides: {
           convertShapeToPath: false,
-          collapseGroups: false
+          collapseGroups: false,
+          convertColors: false
         }
       }
     },
+    { name: 'removeViewBox', active: false },
     { name: 'cleanupIds' },
     {
       name: 'removeUnknownsAndDefaults',
       params: { keepAriaAttrs: true, keepRoleAttr: true }
-    },
-    {
-      name: 'convertColors',
-      params: { shorthex: true, shortname: false }
     }
-  ]
+  ] as any
 };
 
 /**
