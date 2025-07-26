@@ -22,6 +22,9 @@ export default defineConfig({
         'node_modules/',
         'packages/*/dist/',
         'packages/web/**', // Exclude Next.js web app from coverage
+        'packages/schema/**', // Exclude schema package (just type definitions)
+        'packages/*/scripts/**', // Exclude build scripts
+        '**/index.ts', // Exclude re-export index files
         '**/*.d.ts',
         '**/*.config.*',
         '**/*.stories.*',
