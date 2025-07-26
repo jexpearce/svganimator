@@ -20,13 +20,15 @@ export function slideIn(opts: PrimitiveMap['slideIn'] & { selector?: string }): 
       translateStart = `translateY(-${distance})`;
       translateEnd = 'translateY(0)';
       break;
-    case 'bottom':
+    case 'bottom': {
       translateStart = `translateY(${distance})`;
       translateEnd = 'translateY(0)';
       break;
-    default:
+    }
+    default: {
       const _exhaustive: never = fromDirection;
       throw new Error(`Unknown direction: ${_exhaustive}`);
+    }
   }
   
   const keyframes = [

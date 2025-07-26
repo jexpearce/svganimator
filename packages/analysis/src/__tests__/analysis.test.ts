@@ -1,11 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { analyzeSvg, sanitizeSvg } from '../index.js';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import fc from 'fast-check';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('SVG Analysis Pipeline', () => {
   describe('analyzeSvg', () => {
@@ -27,9 +22,7 @@ describe('SVG Analysis Pipeline', () => {
           </g>
         </svg>
       `;
-      console.log('DEBUG: SVG string:', svg);
       const result = await analyzeSvg(svg);
-      console.log('DEBUG: Result:', result);
       
       expect(result.metadata.classification).toBe('structured');
       expect(result.metadata.flags).toContain('isStructured');

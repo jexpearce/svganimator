@@ -45,7 +45,6 @@ export function classifySvg(ast: SvgAst): SvgAnalysisResult['metadata'] {
   countNodes(ast);
   
   // Determine classification
-  const totalElements = Object.values(nodeCount).reduce((sum, count) => sum + count, 0);
   const isStructured = hasGroups && nodeCount.g >= 1;
   const classification = isStructured ? 'structured' : 'flattened';
   

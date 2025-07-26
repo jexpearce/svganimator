@@ -5,10 +5,20 @@ import {
   type SuggestionResponse,
 } from '@motif/schema';
 
-// Initialize OpenAI client (will use OPENAI_API_KEY env var)
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI client lazily to avoid build-time errors
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is required');
+    }
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+}
 
 export async function suggestAnimation(
   svgMeta: SvgMetadata,
@@ -38,7 +48,7 @@ RULES:
 - Always provide reasonable default durations (300-2000ms)
 - Return 1-3 suggestions, ordered by relevance`;
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAIClient().chat.completions.create({
     model: process.env.MOTIF_OPENAI_MODEL || 'gpt-4o-mini',
     messages: [
       { role: 'system', content: systemPrompt },

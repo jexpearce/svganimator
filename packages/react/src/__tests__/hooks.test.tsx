@@ -18,14 +18,14 @@ describe('useSvgAnalysis', () => {
     const mockResult = {
       cleanedSvgString: '<svg><rect/></svg>',
       metadata: {
-        classification: 'flattened',
-        flags: ['isFlattened'],
+        classification: 'flattened' as const,
+        flags: ['isFlattened' as const],
         nodeCount: { rect: 1 }
       }
     };
     
     const { analyzeSvg } = await import('@motif/analysis');
-    vi.mocked(analyzeSvg).mockResolvedValue(mockResult);
+    vi.mocked(analyzeSvg).mockResolvedValue(mockResult as any);
     
     const svg = '<svg><rect width="10" height="10"/></svg>';
     const { result } = renderHook(() => useSvgAnalysis(svg));
@@ -57,14 +57,14 @@ describe('useSvgAnalysis', () => {
     const mockResult = {
       cleanedSvgString: '<svg><circle/></svg>',
       metadata: {
-        classification: 'flattened',
-        flags: ['isFlattened'],
+        classification: 'flattened' as const,
+        flags: ['isFlattened' as const],
         nodeCount: { circle: 1 }
       }
     };
     
     const { analyzeSvg } = await import('@motif/analysis');
-    vi.mocked(analyzeSvg).mockResolvedValue(mockResult);
+    vi.mocked(analyzeSvg).mockResolvedValue(mockResult as any);
     
     const svg = '<svg><circle r="5"/></svg>';
     
@@ -154,7 +154,7 @@ describe('usePrimitivePlayer', () => {
     
     global.Element.prototype.animate = vi.fn().mockReturnValue(mockAnimation);
     
-    const { result, unmount } = renderHook(() => {
+    const { unmount } = renderHook(() => {
       const ref = useRef<SVGSVGElement>(null);
       return usePrimitivePlayer(ref, {
         type: 'fadeIn',

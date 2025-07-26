@@ -3,7 +3,7 @@ import { scale } from './scale.js';
 import { slideIn } from './slideIn.js';
 import { drawPath } from './drawPath.js';
 import { staggerFadeIn } from './staggerFadeIn.js';
-import type { PrimitiveMap, KeyframeEffectSpec, SvgAnalysisResult, Timing } from '@motif/schema';
+import type { PrimitiveMap, KeyframeEffectSpec, SvgAnalysisResult } from '@motif/schema';
 
 // Type-safe primitive functions
 export type PrimitiveFunctions = {

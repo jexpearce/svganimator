@@ -18,16 +18,19 @@ export function staggerFadeIn(
   
   // For stagger, we'll return a spec that targets the children
   // In a real implementation, this would be handled by the runtime
-  // to apply delays to each child element
+  // to apply delays to each child element with the specified stagger delay
   const keyframes = [
     { opacity: 0, transform: 'translateY(10px)' },
     { opacity: 1, transform: 'translateY(0)' }
   ];
   
+  // Use stagger value in the timing configuration
+  const adjustedTiming = { ...timing, delay: stagger || 0 };
+  
   // Note: The actual staggering would be implemented in the runtime
   // by applying incremental delays to each matching element
   return createEffect(childSelector, keyframes, {
-    ...timing,
+    ...adjustedTiming,
     // Stagger info would be used by the runtime
   });
 } 
