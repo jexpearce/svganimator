@@ -30,6 +30,13 @@ export const MotionElement = forwardRef<MotionHandle, MotionElementProps>(functi
     ? { type: animationConfig.type, options: animationConfig.options, metadata: analysis.metadata }
     : null;
 
+  /* mount / update cleaned SVG */
+  useEffect(() => {
+    if (!containerRef.current || !analysis) return;
+    containerRef.current.innerHTML = analysis.cleanedSvgString;
+    svgRef.current = containerRef.current.querySelector('svg');
+  }, [analysis]);
+
   const player = usePrimitivePlayer(svgRef, playerConfig);
 
   useImperativeHandle(ref, () => ({
@@ -37,13 +44,6 @@ export const MotionElement = forwardRef<MotionHandle, MotionElementProps>(functi
     pause:  () => player.pause(),
     cancel: () => player.cancel(),
   }), [player]);
-
-  /* mount / update cleaned SVG */
-  useEffect(() => {
-    if (!containerRef.current || !analysis) return;
-    containerRef.current.innerHTML = analysis.cleanedSvgString;
-    svgRef.current = containerRef.current.querySelector('svg');
-  }, [analysis]);
 
   if (loading) return <div className={className} style={style}>Loading…</div>;
   if (error)   return <div className={className} style={style}>Error: {error.message}</div>;

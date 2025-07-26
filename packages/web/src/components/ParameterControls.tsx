@@ -69,7 +69,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['fadeIn']).from ?? 0}
-              onChange={(value) => updateAnimationOption('from', value)}
+              onChange={(value) => updateAnimationOption('from' as any, value)}
               min={0}
               max={1}
               step={0.1}
@@ -81,7 +81,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['fadeIn']).to ?? 1}
-              onChange={(value) => updateAnimationOption('to', value)}
+              onChange={(value) => updateAnimationOption('to' as any, value)}
               min={0}
               max={1}
               step={0.1}
@@ -98,7 +98,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['scale']).from}
-              onChange={(value) => updateAnimationOption('from', value)}
+              onChange={(value) => updateAnimationOption('from' as any, value)}
               min={0}
               max={2}
               step={0.1}
@@ -110,7 +110,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['scale']).to}
-              onChange={(value) => updateAnimationOption('to', value)}
+              onChange={(value) => updateAnimationOption('to' as any, value)}
               min={0}
               max={2}
               step={0.1}
@@ -120,7 +120,7 @@ export function ParameterControls() {
             <label className="text-xs font-medium text-slate-600">Origin</label>
             <Select
               value={(options as PrimitiveMap['scale']).origin || 'center'}
-              onChange={(value) => updateAnimationOption('origin', value)}
+              onChange={(value) => updateAnimationOption('origin' as any, value)}
               options={[
                 { value: 'center', label: 'Center' },
                 { value: 'top', label: 'Top' },
@@ -143,7 +143,7 @@ export function ParameterControls() {
             <label className="text-xs font-medium text-slate-600">Direction</label>
             <Select
               value={(options as PrimitiveMap['slideIn']).fromDirection}
-              onChange={(value) => updateAnimationOption('fromDirection', value)}
+              onChange={(value) => updateAnimationOption('fromDirection' as any, value)}
               options={[
                 { value: 'left', label: 'From Left' },
                 { value: 'right', label: 'From Right' },
@@ -156,7 +156,7 @@ export function ParameterControls() {
             <label className="text-xs font-medium text-slate-600">Distance</label>
             <Select
               value={(options as PrimitiveMap['slideIn']).distance}
-              onChange={(value) => updateAnimationOption('distance', value)}
+              onChange={(value) => updateAnimationOption('distance' as any, value)}
               options={[
                 { value: '50px', label: '50px' },
                 { value: '100px', label: '100px' },
@@ -175,7 +175,7 @@ export function ParameterControls() {
           </label>
           <Slider
             value={(options as PrimitiveMap['drawPath']).stagger || 0}
-            onChange={(value) => updateAnimationOption('stagger', value)}
+            onChange={(value) => updateAnimationOption('stagger' as any, value)}
             min={0}
             max={500}
             step={50}
@@ -191,7 +191,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['staggerFadeIn']).stagger}
-              onChange={(value) => updateAnimationOption('stagger', value)}
+              onChange={(value) => updateAnimationOption('stagger' as any, value)}
               min={50}
               max={500}
               step={50}
@@ -204,7 +204,7 @@ export function ParameterControls() {
             <input
               type="text"
               value={(options as PrimitiveMap['staggerFadeIn']).childSelector}
-              onChange={(e) => updateAnimationOption('childSelector', e.target.value)}
+              onChange={(e) => updateAnimationOption('childSelector' as any, e.target.value)}
               className="w-full px-3 py-1.5 text-sm rounded-md border focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>

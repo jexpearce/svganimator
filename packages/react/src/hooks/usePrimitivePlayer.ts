@@ -63,8 +63,12 @@ export function usePrimitivePlayer<T extends keyof PrimitiveMap>(
       }
       
       // Find target elements
-      const targets = ref.current.querySelectorAll(effectSpec.targetSelector);
-      
+      let targets = ref.current.querySelectorAll(effectSpec.targetSelector);
+
+      if (targets.length === 0 && effectSpec.targetSelector === 'svg') {
+        targets = [ref.current] as any;
+      }
+
       if (targets.length === 0) {
         logger.warn(`No elements found for selector: ${effectSpec.targetSelector}`);
         return;

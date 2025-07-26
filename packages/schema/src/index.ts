@@ -1,11 +1,7 @@
 /** Classification flags for an analyzed SVG */
 export type SvgFlag = 'isFlattened' | 'isStructured' | 'isStrokeBased';
 
-export interface NodeCount {
-  path: number;
-  g: number;
-  [tag: string]: number;
-}
+export type NodeCount = Record<string, number>;
 
 export interface SvgAnalysisResult {
   cleanedSvgString: string;

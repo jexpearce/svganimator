@@ -27,17 +27,18 @@ export function isValidSvg(content: string): boolean {
 }
 
 export function getAnimationDescription(config: AnimationConfig): string {
+  const opts: any = config.options;
   switch (config.type) {
     case 'fadeIn':
-      return `Fade in from ${config.options.from ?? 0} to ${config.options.to ?? 1}`;
+      return `Fade in from ${opts.from ?? 0} to ${opts.to ?? 1}`;
     case 'scale':
-      return `Scale from ${config.options.from} to ${config.options.to}`;
+      return `Scale from ${opts.from} to ${opts.to}`;
     case 'slideIn':
-      return `Slide in from ${config.options.fromDirection}`;
+      return `Slide in from ${opts.fromDirection}`;
     case 'drawPath':
       return `Draw paths with ${config.options.duration}ms duration`;
     case 'staggerFadeIn':
-      return `Stagger fade in with ${config.options.stagger}ms delay`;
+      return `Stagger fade in with ${opts.stagger}ms delay`;
     default:
       return 'Custom animation';
   }
@@ -48,6 +49,7 @@ export function generateCssAnimation(config: AnimationConfig, elementCount?: num
   const duration = options.duration / 1000;
   const delay = (options.delay || 0) / 1000;
   const easing = options.easing || 'ease';
+  const opts: any = options;
 
   let keyframes = '';
   let animationName = '';
@@ -58,8 +60,8 @@ export function generateCssAnimation(config: AnimationConfig, elementCount?: num
       animationName = 'motif-fade-in';
       keyframes = `
 @keyframes ${animationName} {
-  from { opacity: ${options.from ?? 0}; }
-  to { opacity: ${options.to ?? 1}; }
+  from { opacity: ${opts.from ?? 0}; }
+  to { opacity: ${opts.to ?? 1}; }
 }`;
       animationRule = `animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
       break;
@@ -68,26 +70,26 @@ export function generateCssAnimation(config: AnimationConfig, elementCount?: num
       animationName = 'motif-scale';
       keyframes = `
 @keyframes ${animationName} {
-  from { transform: scale(${options.from}); }
-  to { transform: scale(${options.to}); }
+  from { transform: scale(${opts.from}); }
+  to { transform: scale(${opts.to}); }
 }`;
       animationRule = `
-transform-origin: ${options.origin || 'center'};
+transform-origin: ${opts.origin || 'center'};
 animation: ${animationName} ${duration}s ${easing} ${delay}s forwards;`;
       break;
 
     case 'slideIn': {
       animationName = 'motif-slide-in';
-      const transforms: Record<typeof options.fromDirection, string> = {
-        left: `translateX(-${options.distance})`,
-        right: `translateX(${options.distance})`,
-        top: `translateY(-${options.distance})`,
-        bottom: `translateY(${options.distance})`,
+      const transforms: Record<typeof opts.fromDirection, string> = {
+        left: `translateX(-${opts.distance})`,
+        right: `translateX(${opts.distance})`,
+        top: `translateY(-${opts.distance})`,
+        bottom: `translateY(${opts.distance})`,
       };
       keyframes = `
 @keyframes ${animationName} {
   from { 
-    transform: ${transforms[options.fromDirection]};
+    transform: ${transforms[opts.fromDirection]};
     opacity: 0;
   }
   to { 
