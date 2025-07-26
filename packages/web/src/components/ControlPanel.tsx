@@ -15,6 +15,7 @@ export function ControlPanel() {
     setExportModalOpen,
     svgMeta 
   } = useAppStore();
+  //d
   
   const [activeTab, setActiveTab] = useState<'prompt' | 'manual'>('prompt');
   
