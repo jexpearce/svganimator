@@ -3,17 +3,26 @@ import { optimize, Config } from 'svgo';
 const svgoConfig: Config = {
   multipass: true,
   floatPrecision: 2,
-          plugins: [
-          {
-            name: 'preset-default',
-            params: { overrides: { convertShapeToPath: false } }
-          },
-          { name: 'cleanupIds' },
-          {
-            name: 'removeUnknownsAndDefaults',
-            params: { keepAriaAttrs: true, keepRoleAttr: true }
-          }
-        ]
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          convertShapeToPath: false,
+          collapseGroups: false
+        }
+      }
+    },
+    { name: 'cleanupIds' },
+    {
+      name: 'removeUnknownsAndDefaults',
+      params: { keepAriaAttrs: true, keepRoleAttr: true }
+    },
+    {
+      name: 'convertColors',
+      params: { shorthex: true, shortname: false }
+    }
+  ]
 };
 
 /**

@@ -69,7 +69,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['fadeIn']).from ?? 0}
-              onChange={(value) => updateAnimationOption('from', value)}
+              onChange={(value) => updateAnimationOption('from' as any, value)}
               min={0}
               max={1}
               step={0.1}
@@ -81,7 +81,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['fadeIn']).to ?? 1}
-              onChange={(value) => updateAnimationOption('to', value)}
+              onChange={(value) => updateAnimationOption('to' as any, value)}
               min={0}
               max={1}
               step={0.1}
@@ -98,7 +98,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['scale']).from}
-              onChange={(value) => updateAnimationOption('from', value)}
+              onChange={(value) => updateAnimationOption('from' as any, value)}
               min={0}
               max={2}
               step={0.1}
@@ -110,7 +110,7 @@ export function ParameterControls() {
             </label>
             <Slider
               value={(options as PrimitiveMap['scale']).to}
-              onChange={(value) => updateAnimationOption('to', value)}
+              onChange={(value) => updateAnimationOption('to' as any, value)}
               min={0}
               max={2}
               step={0.1}
