@@ -1,5 +1,6 @@
 export { useSvgAnalysis } from './hooks/useSvgAnalysis.js';
 export { usePrimitivePlayer } from './hooks/usePrimitivePlayer.js';
+export { useEnhancedPrimitivePlayer } from './hooks/useEnhancedPrimitivePlayer.js';
 export { MotionElement } from './components/MotionElement.js';
 export type { MotionElementProps, MotionHandle } from './components/MotionElement.js';
 

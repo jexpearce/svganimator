@@ -2,7 +2,7 @@ import React, {
   forwardRef, useEffect, useRef, useImperativeHandle, Ref,
 } from 'react';
 import { useSvgAnalysis } from '../hooks/useSvgAnalysis.js';
-import { usePrimitivePlayer } from '../hooks/usePrimitivePlayer.js';
+import { useEnhancedPrimitivePlayer } from '../hooks/useEnhancedPrimitivePlayer.js';
 import type { PrimitiveMap } from '@motif/schema';
 
 export interface MotionElementProps<T extends keyof PrimitiveMap = keyof PrimitiveMap> {
@@ -37,7 +37,7 @@ export const MotionElement = forwardRef<MotionHandle, MotionElementProps>(functi
     svgRef.current = containerRef.current.querySelector('svg');
   }, [analysis]);
 
-  const player = usePrimitivePlayer(svgRef, playerConfig);
+  const player = useEnhancedPrimitivePlayer(svgRef, playerConfig);
 
   useImperativeHandle(ref, () => ({
     play:   () => player.play(),

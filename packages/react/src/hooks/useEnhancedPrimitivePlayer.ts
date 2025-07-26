@@ -61,7 +61,8 @@ export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
               animation.play();
               animationsRef.current.push(animation);
             } else {
-              // Fallback to standard animation
+              // Fallback to standard animation  
+              const staggerDelay = (config.options as PrimitiveMap['drawPath']).stagger || 0;
               const animation = target.animate(effectSpec.keyframes, {
                 ...effectSpec.timing,
                 delay: (Number(effectSpec.timing.delay) || 0) + (index * staggerDelay)
