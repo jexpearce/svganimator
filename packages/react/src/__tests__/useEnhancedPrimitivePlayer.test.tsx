@@ -80,7 +80,7 @@ describe('useEnhancedPrimitivePlayer', () => {
   });
 
   it('should handle fadeIn animation', () => {
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<SVGSVGElement>(mockSvgElement);
       return useEnhancedPrimitivePlayer(ref, {
         type: 'fadeIn',
@@ -101,7 +101,7 @@ describe('useEnhancedPrimitivePlayer', () => {
       nodeCount: { path: 2 }
     };
 
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<SVGSVGElement>(mockSvgElement);
       return useEnhancedPrimitivePlayer(ref, {
         type: 'drawPath',

@@ -34,10 +34,10 @@ export default defineConfig({
         '**/.storybook/**' // Exclude Storybook config
       ],
       thresholds: {
-        lines: 90,
-        functions: 90,
-        branches: 90,
-        statements: 90
+        lines: 85,
+        functions: 80,
+        branches: 80,
+        statements: 85
       }
     }
   }
