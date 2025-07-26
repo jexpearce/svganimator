@@ -23,8 +23,22 @@ describe('optimizeSvg', () => {
   it('should preserve viewBox', async () => {
     const input = '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>';
     const output = await optimizeSvg(input);
-    
+
     expect(output).toContain('viewBox');
+  });
+
+  it('should retain group elements', async () => {
+    const input = `
+      <svg width="100" height="100">
+        <g id="layer1">
+          <rect x="10" y="10" width="80" height="80" fill="red"/>
+        </g>
+      </svg>
+    `;
+
+    const output = await optimizeSvg(input);
+
+    expect(output).toContain('<g');
   });
   
   it('should handle empty SVG', async () => {

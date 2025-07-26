@@ -11,16 +11,13 @@ import { classifySvg } from './classify.js';
 export async function analyzeSvg(raw: string): Promise<SvgAnalysisResult> {
   // Step 1: Sanitize
   const sanitized = sanitizeSvg(raw);
-  
-  // Step 2: Optimize
+
+  // Step 2: Parse pre-optimization for accurate counts
+  const preAst = parseSvg(sanitized);
+  const metadata = classifySvg(preAst);
+
+  // Step 3: Optimize for output
   const optimized = await optimizeSvg(sanitized);
-  
-  // Step 3: Parse
-  const ast = parseSvg(optimized);
-  
-  // Step 4: Classify
-  const metadata = classifySvg(ast);
-  
   return {
     cleanedSvgString: optimized,
     metadata

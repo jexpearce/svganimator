@@ -32,7 +32,7 @@ describe('MotionElement', () => {
   it('should show loading state', () => {
     const ref = React.createRef<MotionHandle>();
     render(<MotionElement ref={ref} svgString={simpleSvg} />);
-    expect(screen.getByText('Loading...')).toBeTruthy();
+    expect(screen.getByText('Loading…')).toBeTruthy();
   });
   
   it('should apply animation when config provided', async () => {

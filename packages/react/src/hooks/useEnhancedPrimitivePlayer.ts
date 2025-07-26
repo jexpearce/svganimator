@@ -56,7 +56,8 @@ export function useEnhancedPrimitivePlayer<T extends keyof PrimitiveMap>(
               const delay = (baseDelay + (index * staggerDelay)) as number;
               
               const animation = new Animation(enhancedEffect, document.timeline);
-              animation.startTime = document.timeline.currentTime! + delay;
+              const now = Number(document.timeline.currentTime ?? 0);
+              animation.startTime = now + delay;
               animation.play();
               animationsRef.current.push(animation);
             } else {
