@@ -5,9 +5,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: [
-      'packages/*/src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
-    ],
     exclude: [
       'node_modules',
       'dist',
@@ -15,7 +12,8 @@ export default defineConfig({
       '.git',
       '.cache',
       '**/tests/**',  // Playwright test directories
-      '**/*.spec.ts'  // Exclude .spec files (Playwright convention)
+      'packages/web/tests/**/*.spec.ts',  // Only exclude Playwright specs in web package
+      '**/node_modules/**'  // Exclude all node_modules to prevent Next.js test conflicts
     ],
     coverage: {
       provider: 'v8',
