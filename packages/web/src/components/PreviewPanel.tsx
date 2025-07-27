@@ -57,8 +57,10 @@ export function PreviewPanel() {
               className="max-w-full max-h-[350px]"
             />
           ) : (
-            <div dangerouslySetInnerHTML={{ __html: svgMeta.cleanedSvgString }} 
-                 className="max-w-full max-h-[350px]" />
+            <div
+              dangerouslySetInnerHTML={{ __html: svgMeta.cleanedSvgString }}
+              className="max-w-[350px] w-full h-auto mx-auto"
+            />
           )}
           
           {!animationConfig && (
