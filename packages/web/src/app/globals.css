@@ -117,4 +117,14 @@
   .range-slider:focus::-moz-range-thumb {
     @apply shadow-[0_0_0_3px_rgba(59,130,246,0.1)];
   }
-} 
+
+  .svg-container {
+    @apply flex items-center justify-center;
+  }
+
+  .svg-container svg {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+}

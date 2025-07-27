@@ -21,7 +21,8 @@
     "dompurify": "^3.0.0",
     "jsdom": "^23.0.0",
     "svgo": "^4.0.0",
-    "svg-parser": "^2.0.4"
+    "svg-parser": "^2.0.4",
+    "svg-path-bounds": "^1.0.2"
   },
   "devDependencies": {
     "@motif/test-fixtures": "workspace:*",

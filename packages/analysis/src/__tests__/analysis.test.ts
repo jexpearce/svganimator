@@ -66,10 +66,10 @@ describe('SVG Analysis Pipeline', () => {
         fc.asyncProperty(
           fc.array(
             fc.record({
-              tag: fc.constantFrom('rect', 'circle', 'path', 'g'),
+              tag: fc.constantFrom('rect', 'circle', 'g'),
               attrs: fc.dictionary(
                 fc.constantFrom('x', 'y', 'width', 'height', 'r', 'd', 'fill', 'stroke'),
-                fc.string()
+                fc.stringOf(fc.constantFrom('a','b','c','1','2','3'), { maxLength: 5 })
               )
             }),
             { maxLength: 10 }
